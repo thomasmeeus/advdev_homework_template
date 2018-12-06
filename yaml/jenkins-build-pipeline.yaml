@@ -14,4 +14,6 @@ spec:
       env:
         - name: GUID
           value: ${GUID}
+        - name: REPO
+          value: ${REPO}
     type: JenkinsPipeline
