@@ -1,0 +1,17 @@
+kind: "BuildConfig"
+apiVersion: "v1"
+metadata:
+  name: "tasks-application-pipeline"
+spec:
+  source:
+    type: "Git"
+    git:
+      uri: "${REPO}"
+    contextDir: "openshift-tasks"
+  strategy:
+    jenkinsPipelineStrategy:
+      jenkinsfilePath: Jenkinsfile
+      env:
+        - name: GUID
+          value: ${GUID}
+    type: JenkinsPipeline
