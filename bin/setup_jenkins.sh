@@ -13,7 +13,7 @@ CLUSTER=$3
 echo "Setting up Jenkins in project ${GUID}-jenkins from Git Repo ${REPO} for Cluster ${CLUSTER}"
 
 oc new-app jenkins-persistent -p MEMORY_LIMIT=2Gi DISABLE_ADMINISTRATIVE_MONITORS=true -n ${GUID}-jenkins
-oc patch dc jenkins -p '{"spec": {"template": {"spec": {"containers": [{"name": "jenkins","resources": {"requests": {"cpu": "1"}}}]}}}}' -n ${GUID}-jenkins
+oc patch dc jenkins -p '{"spec": {"template": {"spec": {"containers": [{"name": "jenkins","resources": {"requests": {"cpu": "1"}, "limits": {"cpu": "1"}}}]}}}}' -n ${GUID}-jenkins
 
 oc new-build -D $'FROM docker.io/openshift/jenkins-agent-maven-35-centos7:v3.11\nUSER root\nRUN yum -y install skopeo && yum clean all\nUSER 1001' --name=jenkins-agent-appdev -n ${GUID}-jenkins
 
