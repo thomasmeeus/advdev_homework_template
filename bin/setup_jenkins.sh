@@ -17,8 +17,29 @@ oc patch dc jenkins -p '{"spec": {"template": {"spec": {"containers": [{"name": 
 
 oc new-build -D $'FROM docker.io/openshift/jenkins-agent-maven-35-centos7:v3.11\nUSER root\nRUN yum -y install skopeo && yum clean all\nUSER 1001' --name=jenkins-agent-appdev -n ${GUID}-jenkins
 
-
-oc create -f yaml/jenkins-build-pipeline.yaml -n ${GUID}-jenkins
+echo "apiVersion: v1
+items:
+- kind: "BuildConfig"
+  apiVersion: "v1"
+  metadata:
+    name: "tasks-pipeline"
+  spec:
+    source:
+      type: "Git"
+      git:
+        uri: "${REPO}"
+      contextDir: "openshift-tasks"
+    strategy:
+      type: "JenkinsPipeline"
+      jenkinsfilePath: Jenkinsfile
+      jenkinsPipelineStrategy:
+        env:
+        - name: GUID
+          value: ${GUID}
+        - name: REPO
+          value: ${REPO}
+kind: List
+metadata: []" | oc create -f - -n ${GUID}-jenkins
 
 # Make sure that Jenkins is fully up and running before proceeding!
 while : ; do
