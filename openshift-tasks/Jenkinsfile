@@ -51,7 +51,7 @@ podTemplate(
             echo "Running Unit Tests"
             sh "${mvnCmd} test"
           },
-          'Code Analysis' {
+          'Code Analysis': {
             echo "Running Code Analysis"
             sh "${mvnCmd} sonar:sonar   -Dsonar.host.url=http://sonarqube.gpte-hw-cicd.svc.cluster.local:9000 -Dsonar.projectName=${JOB_BASE_NAME}-${devTag}"
           }
