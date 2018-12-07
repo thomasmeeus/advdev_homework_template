@@ -119,7 +119,7 @@ podTemplate(
 
          // Update the Config Map which contains the users for the Tasks application
          sh "oc delete configmap ${destApp}-config --ignore-not-found=true -n ${GUID}-tasks-prod"
-         sh "oc create configmap ${destApp}-config --from-file=./configuration/application-users.properties --from-file=./configuration/      application-roles.properties -n ${GUID}-tasks-prod"
+         sh "oc create configmap ${destApp}-config --from-file=./configuration/application-roles.properties -n ${GUID}-tasks-prod"
 
          // Deploy the inactive application.
          openshiftDeploy depCfg: destApp, namespace: '${GUID}-tasks-prod', verbose: 'false', waitTime: '', waitUnit: 'sec'
