@@ -115,7 +115,7 @@ podTemplate(
          echo "Destination Application: " + destApp
 
          // Update the Image on the Production Deployment Config
-         sh "oc set image dc/${destApp} ${destApp}=docker://docker-registry.default.svc.cluster.local:5000/${GUID}-tasks-dev/tasks:${prodTag} -n ${GUID}-tasks-prod"
+         sh "oc set image dc/${destApp} ${destApp}=docker-registry.default.svc:5000/${GUID}-tasks-dev/tasks:${prodTag} -n ${GUID}-tasks-prod"
 
          // Update the Config Map which contains the users for the Tasks application
          sh "oc delete configmap ${destApp}-config --ignore-not-found=true -n ${GUID}-tasks-prod"
